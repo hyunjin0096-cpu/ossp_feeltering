@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>FEELTERING</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="logo">FEELTERING</h1>
+        <div class="header-line"></div>
+        <p class="subtitle">민원을 음성으로 쉽고 간단하게 작성하세요.</p>
+    </header>
+
+    <!-- 1. 입력 화면 -->
+    <main id="inputPage" class="page">
+        <section class="input-main-box">
+            <p class="input-guide">버튼을 눌러 녹음을 시작하고 다시 눌러 종료합니다.</p>
+
+            <!-- 원형: 녹음 시작/종료 버튼 -->
+            <button id="recordButton" class="record-button" type="button">
+                🎙️
+            </button>
+
+            <!-- 별 모양: 파일 업로드 버튼 -->
+            <label for="audioFile" class="upload-star">✦</label>
+            <div class="upload-arrow"></div>
+            <div class="upload-text">
+                파일 업로드<br>
+                <span>(.wav, .mp3 ...)</span>
+            </div>
+            <input id="audioFile" class="hidden-file" type="file" accept=".wav,.mp3,.m4a">
+
+            <!-- 텍스트 입력창 -->
+            <div class="text-area-wrap">
+                <p>또는 민원을 직접 작성 하세요.</p>
+                <textarea id="complaintText"></textarea>
+            </div>
+        </section>
+
+        <button id="startButton" class="convert-button">변환하기</button>
+
+        <section class="bottom-section input-active">
+            <div class="flow-box">
+                <div class="flow-item active">🎙️<br><span>Input</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">🤖<br><span>Processing</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">📄<br><span>Final Text<br>& Department</span></div>
+            </div>
+
+            <div class="info-list">
+                <div class="info info1">🎤 AI 음성 전처리: 소음과 무음 구간을 제거해 인식 정확도를 높입니다.</div>
+                <div class="info info2">📃 AI 문장 재구성: 입력 내용을 정중한 민원 문장으로 변환합니다.</div>
+                <div class="info info3">👩 부서 추천: 민원에 맞는 담당 부서를 추천합니다.</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 2. 변환 중 화면 -->
+    <main id="loadingPage" class="page hidden">
+        <section class="loading-main-box">
+            <div class="loading-icons">🤖 🎙️ 💻 🔢</div>
+            <div class="loading-circle">변환중</div>
+            <div class="loading-icons">🔢 💻 🎙️ 🤖</div>
+        </section>
+
+        <section class="bottom-section">
+            <div class="flow-box">
+                <div class="flow-item">🎙️<br><span>Input</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item active">🤖<br><span>Processing</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">📄<br><span>Final Text<br>& Department</span></div>
+            </div>
+
+            <div class="info-list">
+                <div class="info info1">🎤 AI 음성 전처리: 소음과 무음 구간을 제거해 인식 정확도를 높입니다.</div>
+                <div class="info info2">📃 AI 문장 재구성: 입력 내용을 정중한 민원 문장으로 변환합니다.</div>
+                <div class="info info3">👩 부서 추천: 민원에 맞는 담당 부서를 추천합니다.</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 3. 출력 화면 -->
+    <main id="resultPage" class="page hidden">
+        <h2 class="complete-title">변환 완료!</h2>
+
+        <section class="result-main-section">
+            <!-- 왼쪽 사각형: 최종 민원문 출력칸 -->
+            <div id="finalText" class="final-text-box"></div>
+
+            <!-- 오른쪽 사각형: 추천 부서 출력칸 -->
+            <div class="department-box">
+                <div class="department-title">추천 부서</div>
+                <div id="departmentResult" class="department-result"></div>
+            </div>
+        </section>
+
+        <section class="bottom-section">
+            <div class="flow-box">
+                <div class="flow-item">🎙️<br><span>Input</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">🤖<br><span>Processing</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item active">📄<br><span>Final Text<br>& Department</span></div>
+            </div>
+
+            <div class="info-list">
+                <div class="info info1">🎤 AI 음성 전처리: 소음과 무음 구간을 제거해 인식 정확도를 높입니다.</div>
+                <div class="info info2">📃 AI 문장 재구성: 입력 내용을 정중한 민원 문장으로 변환합니다.</div>
+                <div class="info info3">👩 부서 추천: 민원에 맞는 담당 부서를 추천합니다.</div>
+            </div>
+        </section>
+
+        <button id="restartButton" class="convert-button restart-button">처음으로</button>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
