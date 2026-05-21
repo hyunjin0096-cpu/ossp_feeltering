@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 complaint_rewriter_ai/.env
 *.wav
 
-=======
->>>>>>> 886e551 (chore: 초기 폴더 설정)
 # Python virtual environments
 .venv/
 venv/
@@ -18,8 +15,4 @@ __pycache__/
 .env
 
 # VS Code settings
-<<<<<<< HEAD
 .vscode/
-=======
-.vscode/
->>>>>>> 886e551 (chore: 초기 폴더 설정)
