@@ -13,3 +13,26 @@ __pycache__/
 
 # VS Code settings
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+
+# AI model files
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.pkl
+*.joblib
+
+# Training outputs
+model/
+models/
+checkpoint/
+checkpoints/
+outputs/
+runs/
+
+# Cache
+.cache/
