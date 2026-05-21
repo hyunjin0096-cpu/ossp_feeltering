@@ -79,6 +79,30 @@
     "required_documents": ["광고물 사진", "설치 위치", "광고물 종류"],
     "extra_info": "광고물이 설치된 위치와 주변 배경이 함께 보이도록 촬영하면 좋습니다."
   },
+  "traffic_general": {
+    "department": "교통행정과",
+    "reason": "교통 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
+    "contact": "02-0000-0000",
+    "website": "https://example.go.kr/traffic",
+    "required_documents": ["민원 내용 설명", "발생 위치", "관련 사진"],
+    "extra_info": "주차, 도로, 통행 등 어떤 문제가 발생했는지 구체적으로 작성하면 처리에 도움이 됩니다."
+  },
+  "environment_general": {
+    "department": "환경과",
+    "reason": "환경 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
+    "contact": "02-0000-0000",
+    "website": "https://example.go.kr/environment",
+    "required_documents": ["민원 내용 설명", "발생 위치", "관련 사진"],
+    "extra_info": "쓰레기, 소음, 악취, 배수 문제 등 구체적인 상황을 작성하면 처리에 도움이 됩니다."
+  },
+  "safety_general": {
+    "department": "안전관리과",
+    "reason": "안전 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
+    "contact": "02-0000-0000",
+    "website": "https://example.go.kr/safety",
+    "required_documents": ["민원 내용 설명", "발생 위치", "위험 상황 사진"],
+    "extra_info": "위험한 위치와 상황을 구체적으로 작성하면 처리에 도움이 됩니다."
+  },
   "etc": {
     "department": "민원접수팀",
     "reason": "자동 분류가 어려워 민원접수팀의 1차 확인이 필요합니다.",
