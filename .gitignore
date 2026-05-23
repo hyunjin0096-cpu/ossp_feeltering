@@ -1,0 +1,4 @@
+.env
+complaint_rewriter_ai/.env
+__pycache__/
+*.pyc
