@@ -1,113 +1,156 @@
 {
   "illegal_parking": {
-    "department": "교통행정과",
-    "reason": "주차, 차량 통행, 단속 요청과 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/traffic",
+    "department": "주차관리과 주차단속팀",
+    "reason": "불법 주정차, 차량 통행 방해, 주차 단속 요청과 관련된 민원입니다.",
+    "contact": "02-2199-4600",
+    "website": "https://www.safetyreport.go.kr",
     "required_documents": [
-      "불법주차 차량 사진",
+      "불법주정차 차량 사진",
       "차량 번호",
       "발생 위치",
-      "발생 시간"
+      "발생 날짜와 시간",
+      "주정차 금지구역임을 확인할 수 있는 주변 사진",
+      "통행 방해 또는 안전 위험이 보이는 사진"
     ],
     "extra_info": "차량 번호와 위치가 명확히 보이도록 사진을 첨부하면 처리에 도움이 됩니다."
   },
   "waste_cleaning": {
-    "department": "청소행정과",
-    "reason": "쓰레기 수거, 무단투기, 악취와 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/cleaning",
+    "department": "청소행정과 도시청결팀",
+    "reason": "쓰레기 무단투기, 생활폐기물 방치, 청소 요청, 불법소각, 악취와 관련된 민원입니다.",
+    "contact": "02-2199-7335",
+    "website": "https://www.yongsan.go.kr/portal/main/main.do",
     "required_documents": [
-      "현장 사진",
+      "쓰레기 또는 무단투기 현장 사진",
       "발생 위치",
-      "발생 시간",
-      "쓰레기 종류"
+      "발견 날짜와 시간",
+      "투기 물품 종류",
+      "반복 발생 여부",
+      "투기 행위자 또는 차량이 확인되는 경우 관련 사진"
     ],
     "extra_info": "무단투기 장소와 주변 표식이 함께 보이도록 사진을 첨부하면 좋습니다."
   },
   "noise": {
-    "department": "환경과",
-    "reason": "소음, 공사 소리, 생활환경 불편과 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/environment",
+    "department": "맑은환경과 생활환경팀",
+    "reason": "공사장 소음, 영업장 소음, 확성기 소음, 생활소음·비산먼지와 관련된 민원입니다.",
+    "contact": "02-2199-7672",
+    "website": "https://www.epeople.go.kr",
     "required_documents": [
       "소음 발생 위치",
-      "소음 발생 시간대",
-      "소음 원인",
-      "가능한 경우 녹음 자료"
+      "소음 발생 날짜와 시간",
+      "소음 원인 설명",
+      "반복 발생 횟수",
+      "가능한 경우 영상 또는 녹음 자료"
     ],
     "extra_info": "소음이 반복되는 시간대와 원인을 함께 작성하면 민원 처리에 도움이 됩니다."
   },
   "road_damage": {
-    "department": "도로관리과",
-    "reason": "도로 파손, 포트홀, 보도블록 문제와 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/road",
-    "required_documents": ["파손 부위 사진", "정확한 위치", "위험 정도 설명"],
+    "department": "도로과 도로관리팀",
+    "reason": "도로 파손, 도로시설물 파손, 포트홀, 보도블록 문제와 관련된 민원입니다.",
+    "contact": "02-2199-7861",
+    "website": "https://www.safetyreport.go.kr",
+    "required_documents": [
+      "도로 파손 부위 사진",
+      "발생 위치",
+      "발견 날짜와 시간",
+      "파손 규모를 알 수 있는 근접 사진",
+      "주변 건물명 또는 도로명 주소",
+      "보행자·차량 위험 여부 설명"
+    ],
     "extra_info": "도로명 주소나 주변 건물명을 함께 적으면 위치 확인이 쉬워집니다."
   },
   "streetlight": {
-    "department": "시설관리과",
+    "department": "도로과 도로조명팀",
     "reason": "가로등 고장, 조명 불량 등 공공시설 관리와 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/facility",
+    "contact": "02-2199-7881",
+    "website": "https://www.safetyreport.go.kr",
     "required_documents": [
-      "고장난 가로등 위치",
+      "고장난 가로등 사진",
+      "정확한 위치",
       "가로등 번호가 보이는 사진",
       "고장 상태 설명"
     ],
-    "extra_info": "가로등 번호가 있다면 함께 제출하는 것이 좋습니다."
+    "extra_info": "가로등 번호표가 있다면 함께 촬영하면 좋고, 번호가 없으면 주변 건물명·도로명 주소·교차로명을 적어 함께 제출하는 것이 좋습니다."
   },
   "sewer_drainage": {
-    "department": "하수도과",
-    "reason": "하수구 막힘, 배수 불량, 침수와 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/sewer",
+    "department": "치수과 하수팀",
+    "reason": "하수구 막힘, 배수 불량, 침수우려, 하수 악취, 맨홀 주변 문제와 관련된 민원입니다.",
+    "contact": "02-2199-7911",
+    "website": "https://www.safetyreport.go.kr",
     "required_documents": [
       "하수구 또는 배수 불량 사진",
       "발생 위치",
+      "발생 날짜와 시간",
       "침수 여부",
-      "발생 시간"
+      "악취 또는 역류 발생 여부",
+      "맨홀·빗물받이 위치 사진"
     ],
     "extra_info": "비가 온 직후의 사진이나 물이 고인 정도를 함께 기록하면 도움이 됩니다."
   },
   "illegal_advertisement": {
-    "department": "도시미관과",
+    "department": "건설관리과 광고물관리팀",
     "reason": "불법 현수막, 전단지, 광고물과 관련된 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/city-design",
-    "required_documents": ["광고물 사진", "설치 위치", "광고물 종류"],
+    "contact": "02-2199-7721",
+    "website": "https://www.epeople.go.kr",
+    "required_documents": [
+      "불법 광고물 사진",
+      "광고물 설치 위치",
+      "발견 날짜와 시간",
+      "광고물 종류",
+      "보행 또는 차량 통행 방해 여부",
+      "광고 내용 또는 업체명이 보이는 사진"
+    ],
     "extra_info": "광고물이 설치된 위치와 주변 배경이 함께 보이도록 촬영하면 좋습니다."
   },
   "traffic_general": {
     "department": "교통행정과",
-    "reason": "교통 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/traffic",
-    "required_documents": ["민원 내용 설명", "발생 위치", "관련 사진"],
+    "reason": "교통시설, 교통안전, 차량 흐름, 통행 불편 등 전반적인 교통 관련 민원입니다.",
+    "contact": "02-2199-7749",
+    "website": "https://www.epeople.go.kr",
+    "required_documents": [
+      "교통 불편 현장 사진",
+      "발생 위치",
+      "발생 날짜와 시간",
+      "관련 사진",
+      "문제 상황 설명",
+      "개선 요청 사항"
+    ],
     "extra_info": "주차, 도로, 통행 등 어떤 문제가 발생했는지 구체적으로 작성하면 처리에 도움이 됩니다."
   },
   "environment_general": {
-    "department": "환경과",
-    "reason": "환경 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/environment",
-    "required_documents": ["민원 내용 설명", "발생 위치", "관련 사진"],
+    "department": "맑은환경과",
+    "reason": "대기, 악취, 비산먼지, 생활환경, 환경오염 등 전반적인 환경 관련 민원입니다.",
+    "contact": "02-2199-7641",
+    "website": "https://www.epeople.go.kr",
+    "required_documents": [
+      "환경 불편 현장 사진",
+      "발생 위치",
+      "발생 날짜와 시간",
+      "관련 사진",
+      "원인으로 추정되는 시설 또는 사업장 정보",
+      "개선 요청 사항"
+    ],
     "extra_info": "쓰레기, 소음, 악취, 배수 문제 등 구체적인 상황을 작성하면 처리에 도움이 됩니다."
   },
   "safety_general": {
-    "department": "안전관리과",
-    "reason": "안전 관련 민원이지만 세부 유형이 명확하지 않은 민원입니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/safety",
-    "required_documents": ["민원 내용 설명", "발생 위치", "위험 상황 사진"],
+    "department": "안전재난과 또는 안전신고",
+    "reason": "생활안전, 시설물 위험, 재난 위험, 긴급 안전점검 요청 등 전반적인 안전 관련 민원입니다.",
+    "contact": "02-2199-6114",
+    "website": "https://www.safetyreport.go.kr",
+    "required_documents": [
+      "위험 현장 사진",
+      "발생 위치",
+      "발견 날짜와 시간",
+      "위험 요소 설명",
+      "사람 또는 차량 통행 위험 여부",
+      "긴급 조치가 필요한 이유"
+    ],
     "extra_info": "위험한 위치와 상황을 구체적으로 작성하면 처리에 도움이 됩니다."
   },
   "etc": {
     "department": "민원접수팀",
-    "reason": "자동 분류가 어려워 민원접수팀의 1차 확인이 필요합니다.",
-    "contact": "02-0000-0000",
-    "website": "https://example.go.kr/complaint",
+    "reason": "유형이 명확하지 않거나 여러 부서가 함께 검토해야 하는 일반 민원입니다.",
+    "contact": "02-2199-6114",
+    "website": "https://www.epeople.go.kr",
     "required_documents": [
       "민원 내용 설명",
       "관련 사진 또는 자료",
