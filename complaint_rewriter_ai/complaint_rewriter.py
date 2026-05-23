@@ -1,0 +1,112 @@
+import json
+from google import genai
+from google.genai import types
+from config import GEMINI_API_KEY
+
+
+client = genai.Client(api_key=GEMINI_API_KEY)
+
+
+def rewrite_complaint(raw_text: str) -> dict:
+    """
+    STT가 변환한 텍스트(raw_text)를 받아서
+    1. 문장을 보정하고
+    2. 공공기관 제출용 민원문으로 재구성하고
+    3. 민원 제목과 핵심 내용을 추출한 뒤
+    4. 문제 상황, 장소, 요청 사항을 JSON 형태로 반환한다.
+
+    이 함수는 백엔드에서 호출되는 함수이므로 input(), print()를 사용하지 않는다.
+    """
+
+    if not raw_text or not raw_text.strip():
+        return {
+            "raw_text": "",
+            "final_text": "",
+            "complaint_title": "정보 없음",
+            "refined_text": "정보 없음",
+            "problem": "정보 없음",
+            "location": "정보 없음",
+            "request": "정보 없음"
+        }
+
+    prompt = f"""
+너는 STT 모델이 변환한 민원 텍스트를 공공기관 제출용 민원문으로 재작성하는 백엔드 AI 모듈이다.
+
+아래 raw_text를 분석해서 반드시 JSON 형식으로만 답해라.
+
+역할:
+1. STT 변환 과정에서 생긴 어색한 표현이나 오타를 자연스럽게 보정한다.
+2. 사용자의 민원 내용을 공공기관에 제출할 수 있는 정중하고 명확한 문장으로 재구성한다.
+3. 민원 제목을 만든다.
+4. 핵심 내용을 짧게 정리한다.
+5. 문제 상황, 장소, 요청 사항을 각각 추출한다.
+
+중요 조건:
+1. 사용자가 말하지 않은 구체적인 주소, 날짜, 기관명, 사건 내용은 임의로 만들지 않는다.
+2. 사용자가 말한 핵심 단어는 가능한 한 유지한다.
+   예: 불법 주정차, 쓰레기, 악취, 도로 파손, 가로등, 소음, 무단투기, 단속, 수거, 보수
+3. 뒤의 민원 유형 분류 AI가 키워드를 찾을 수 있도록 final_text에는 문제 상황을 구체적으로 표현한다.
+4. final_text는 공공기관 제출용 민원문 형태로 작성한다.
+5. complaint_title은 짧고 명확한 민원 제목으로 작성한다.
+6. refined_text는 민원의 핵심 내용을 한두 문장으로 요약한다.
+7. problem은 구체적인 문제 상황만 작성한다.
+8. location은 민원 발생 위치만 작성한다.
+9. request는 사용자가 원하는 조치 사항만 작성한다.
+10. 정보가 없으면 "정보 없음"이라고 작성한다.
+11. JSON 이외의 설명 문장은 절대 쓰지 않는다.
+
+raw_text:
+{raw_text}
+
+출력 형식:
+{{
+  "raw_text": "",
+  "final_text": "",
+  "complaint_title": "",
+  "refined_text": "",
+  "problem": "",
+  "location": "",
+  "request": ""
+}}
+"""
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json"
+        )
+    )
+
+    try:
+        result = json.loads(response.text)
+    except json.JSONDecodeError:
+        return {
+            "raw_text": raw_text,
+            "final_text": raw_text,
+            "complaint_title": "정보 없음",
+            "refined_text": raw_text,
+            "problem": "정보 없음",
+            "location": "정보 없음",
+            "request": "정보 없음"
+        }
+
+    return {
+        "raw_text": result.get("raw_text", raw_text),
+        "final_text": result.get("final_text", raw_text),
+        "complaint_title": result.get("complaint_title", "정보 없음"),
+        "refined_text": result.get("refined_text", "정보 없음"),
+        "problem": result.get("problem", "정보 없음"),
+        "location": result.get("location", "정보 없음"),
+        "request": result.get("request", "정보 없음")
+    }
+
+
+def get_text_for_classification(raw_text: str) -> str:
+    """
+    민원 유형 분류 AI에 넘길 텍스트만 반환한다.
+    기존 detail_classifier.py의 classify(text, category)에서 text로 들어갈 값이다.
+    """
+
+    result = rewrite_complaint(raw_text)
+    return result["final_text"]
