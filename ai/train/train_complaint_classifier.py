@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, f1_score, classification_report
 from datasets import Dataset
 from transformers import (
     AutoTokenizer,
@@ -163,6 +164,20 @@ trainer = Trainer(
 
 trainer.train()
 
+eval_result = trainer.evaluate()
+
+print("최종 평가 결과:")
+print(eval_result)
+
+predictions = trainer.predict(valid_dataset)
+
+pred_labels = np.argmax(predictions.predictions, axis=-1)
+true_labels = predictions.label_ids
+
+target_names = [id2category[i] for i in range(len(id2category))]
+
+print("분류 성능 상세 결과:")
+print(classification_report(true_labels, pred_labels, target_names=target_names))
 
 # =========================
 # 11. 모델과 토크나이저 저장
