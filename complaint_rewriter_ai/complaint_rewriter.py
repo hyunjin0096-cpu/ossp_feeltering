@@ -12,18 +12,19 @@ def rewrite_complaint(raw_text: str) -> dict:
     STT가 변환한 텍스트(raw_text)를 받아서
     1. 문제 상황, 장소, 요청 사항을 추출하고
     2. 공공기관 제출용 최종 민원문으로 재구성한 뒤
-    dict 형태로 반환한다.
+    keywords와 text 형태로 반환한다.
 
-    이 함수는 백엔드에서 호출되는 함수이므로 input(), print()를 사용하지 않는다.
+    반환 형식:
+    {
+        "keywords": ["문제 상황", "장소", "요청 사항"],
+        "text": "최종 민원문"
+    }
     """
 
     if not raw_text or not raw_text.strip():
         return {
-            "raw_text": "",
-            "problem": "정보 없음",
-            "location": "정보 없음",
-            "request": "정보 없음",
-            "final_text": ""
+            "keywords": ["정보 없음", "정보 없음", "정보 없음"],
+            "text": ""
         }
 
     prompt = f"""
@@ -54,7 +55,6 @@ raw_text:
 
 출력 형식:
 {{
-  "raw_text": "",
   "problem": "",
   "location": "",
   "request": "",
@@ -66,35 +66,23 @@ raw_text:
         model="gemini-2.5-flash",
         contents=prompt,
         config=types.GenerateContentConfig(
-            response_mime_type="application/json"
-        )
+            response_mime_type="application/json")
     )
 
     try:
         result = json.loads(response.text)
     except json.JSONDecodeError:
         return {
-            "raw_text": raw_text,
-            "problem": "정보 없음",
-            "location": "정보 없음",
-            "request": "정보 없음",
-            "final_text": raw_text
+            "keywords": ["정보 없음", "정보 없음", "정보 없음"],
+            "text": raw_text
         }
 
+    problem = result.get("problem", "정보 없음")
+    location = result.get("location", "정보 없음")
+    request = result.get("request", "정보 없음")
+    final_text = result.get("final_text", raw_text)
+
     return {
-        "raw_text": result.get("raw_text", raw_text),
-        "problem": result.get("problem", "정보 없음"),
-        "location": result.get("location", "정보 없음"),
-        "request": result.get("request", "정보 없음"),
-        "final_text": result.get("final_text", raw_text)
+        "keywords": [problem, location, request],
+        "text": final_text
     }
-
-
-def get_text_for_classification(raw_text: str) -> str:
-    """
-    민원 유형 분류 AI에 넘길 최종 민원문만 반환한다.
-    기존 민원분류 AI의 analyze(text) 또는 classify(text, category)에서 text로 들어갈 값이다.
-    """
-
-    result = rewrite_complaint(raw_text)
-    return result["final_text"]
