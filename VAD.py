@@ -4,10 +4,9 @@ import sys
 # 🔥ffmpeg 경로 강제 지정
 try:
     import imageio_ffmpeg
-    # 내장된 정상 ffmpeg 실행 파일의 경로를 알아냅니다.
+    # 내장된 정상 ffmpeg 실행 파일의 경로 탐색.
     clean_ffmpeg_path = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
     
-    # 꼬여버린 아나콘다 경로를 무시하도록 시스템 PATH 맨 앞에 강제 주입합니다.
     if clean_ffmpeg_path not in os.environ["PATH"]:
         os.environ["PATH"] = clean_ffmpeg_path + os.path.pathsep + os.environ["PATH"]
 except ImportError:
