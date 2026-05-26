@@ -2,34 +2,40 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     background: #ffffff;
     color: #000000;
     font-family: "Malgun Gothic", "Nanum Gothic", sans-serif;
+    overflow: hidden;
 }
 
 .hidden {
     display: none;
 }
 
-/* 상단 */
+/* 상단 헤더 */
 .header {
     width: 100%;
-    height: 176px;
+    height: 145px;
     background: #d5e8ff;
     display: flex;
     align-items: center;
-    padding: 0 80px;
+    padding: 0 56px;
 }
 
 .logo {
     font-family: Georgia, serif;
-    font-size: 48px;
+    font-size: 46px;
     letter-spacing: 5px;
     color: #2e536b;
     text-shadow: 3px 3px 0 #9fc9e8;
-    margin-right: 40px;
+    margin-right: 38px;
+    white-space: nowrap;
 }
 
 .header-line {
@@ -40,48 +46,53 @@ body {
 }
 
 .subtitle {
-    font-size: 28px;
+    font-size: 26px;
     white-space: nowrap;
 }
 
 /* 공통 페이지 */
 .page {
-    width: 1440px;
-    min-height: 848px;
+    width: 100%;
+    max-width: 1440px;
+    height: calc(100vh - 145px);
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
 }
 
-/* 입력 화면 */
+/* =========================
+   입력 화면
+========================= */
+
 .input-main-box {
-    width: 952px;
-    height: 410px;
+    width: 960px;
+    height: 330px;
     background: #dff3ff;
     border-radius: 30px;
-    margin: 43px auto 0;
+    margin: 30px auto 0;
     position: relative;
 }
 
 .input-guide {
     position: absolute;
-    top: 42px;
+    top: 32px;
     left: 0;
     width: 100%;
     text-align: center;
-    font-size: 31px;
+    font-size: 29px;
     margin: 0;
 }
 
 .record-button {
     position: absolute;
-    left: 394px;
-    top: 111px;
-    width: 186px;
-    height: 186px;
+    left: 397px;
+    top: 92px;
+    width: 158px;
+    height: 158px;
     border-radius: 50%;
     border: 3px solid #1d5275;
     background: #79b8e8;
-    font-size: 72px;
+    font-size: 64px;
     cursor: pointer;
 }
 
@@ -93,15 +104,15 @@ body {
     background: #ffb6b6;
 }
 
+/* 별 모양 파일 업로드 버튼 */
 .upload-star {
     position: absolute;
-    left: 628px;
-    top: 118px;
-    font-size: 72px;
+    left: 635px;
+    top: 112px;
+    font-size: 65px;
     color: #6d91bd;
     cursor: pointer;
     transform: rotate(8deg);
-
     text-shadow:
         -2px -2px 0 #9bc9f0,
         2px -2px 0 #9bc9f0,
@@ -110,14 +121,19 @@ body {
         0px 0px 6px #9bc9f0;
 }
 
+.upload-star:hover {
+    color: #4f78a8;
+}
+
+/* 별과 파일 업로드 텍스트 사이 화살표 */
 .upload-arrow {
     position: absolute;
-    left: 670px;
-    top: 165px;
-    width: 120px;
+    left: 675px;
+    top: 158px;
+    width: 112px;
     height: 2px;
     background-color: #666666;
-    transform: rotate(-28deg);
+    transform: rotate(-25deg);
     transform-origin: left center;
 }
 
@@ -132,57 +148,55 @@ body {
     border-radius: 50%;
 }
 
-.upload-star:hover {
-    color: #4f78a8;
-}
-
 .upload-text {
     position: absolute;
-    left: 790px;
-    top: 96px;
-    font-size: 20px;
-    line-height: 1.2;
+    left: 800px;
+    top: 92px;
+    font-size: 19px;
+    line-height: 1.25;
 }
 
 .upload-text span {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .hidden-file {
     display: none;
 }
 
+/* 텍스트 입력창 */
 .text-area-wrap {
     position: absolute;
-    left: 151px;
-    top: 286px;
-    width: 648px;
+    left: 165px;
+    top: 240px;
+    width: 630px;
 }
 
 .text-area-wrap p {
-    margin: 0 0 8px;
-    font-size: 22px;
+    margin: 0 0 6px;
+    font-size: 21px;
 }
 
 textarea {
-    width: 648px;
-    height: 63px;
+    width: 630px;
+    height: 54px;
     resize: none;
     border: 1px solid #777777;
     border-radius: 6px;
     background: #eef3ff;
-    font-size: 18px;
-    padding: 10px;
+    font-size: 17px;
+    padding: 8px 10px;
 }
 
+/* 변환 버튼 */
 .convert-button {
     display: block;
-    margin: 14px auto 0;
-    padding: 9px 28px;
+    margin: 10px auto 0;
+    padding: 8px 28px;
     border: 2px solid #1d5275;
     border-radius: 10px;
     background: #79b8e8;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -191,69 +205,75 @@ textarea {
     background: #68addf;
 }
 
-/* 변환 중 화면 */
+/* =========================
+   변환 중 화면
+========================= */
+
 .loading-main-box {
-    width: 952px;
-    height: 410px;
+    width: 960px;
+    height: 330px;
     background: #dff3ff;
     border-radius: 30px;
-    margin: 43px auto 0;
+    margin: 30px auto 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 58px;
+    gap: 54px;
 }
 
 .loading-icons {
-    font-size: 34px;
-    letter-spacing: 8px;
+    font-size: 30px;
+    letter-spacing: 7px;
 }
 
 .loading-circle {
-    width: 186px;
-    height: 186px;
+    width: 158px;
+    height: 158px;
     border-radius: 50%;
     border: 3px solid #1d5275;
     background: #79b8e8;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 34px;
+    font-size: 31px;
 }
 
-/* 출력 화면 */
+/* =========================
+   출력 화면
+========================= */
+
 .complete-title {
     text-align: center;
-    font-size: 36px;
-    margin: 14px 0 16px;
+    font-size: 34px;
+    margin: 16px 0 14px;
 }
 
 .result-main-section {
-    width: 1144px;
+    width: 1080px;
     margin: 0 auto;
     display: flex;
-    gap: 64px;
+    gap: 58px;
 }
 
 .final-text-box {
-    width: 665px;
-    height: 410px;
+    width: 645px;
+    height: 320px;
     background: #bdd8ff;
     border-radius: 30px;
-    padding: 34px 38px;
-    font-size: 22px;
-    line-height: 1.65;
+    padding: 28px 34px;
+    font-size: 19px;
+    line-height: 1.6;
     white-space: pre-line;
     overflow-y: auto;
 }
 
 .department-box {
-    width: 407px;
-    height: 410px;
+    width: 377px;
+    height: 320px;
     background: #dff3ff;
     border-radius: 30px;
     text-align: center;
-    padding-top: 31px;
+    padding-top: 28px;
 }
 
 .department-title {
@@ -261,46 +281,49 @@ textarea {
     border: 1px solid #000000;
     border-radius: 4px;
     background: #c6d2e2;
-    font-size: 36px;
-    padding: 5px 30px;
+    font-size: 32px;
+    padding: 5px 28px;
 }
 
 .department-result {
-    margin-top: 80px;
-    font-size: 30px;
+    margin-top: 65px;
+    font-size: 27px;
     line-height: 1.5;
 }
 
-/* 하단 배경 느낌 영역 */
+/* =========================
+   하단 설명 영역
+========================= */
+
 .bottom-section {
-    width: 1302px;
-    height: 235px;
-    margin: 66px auto 0;
+    width: 1260px;
+    height: 165px;
+    margin: 24px auto 0;
     display: flex;
-    gap: 52px;
+    gap: 46px;
 }
 
 .flow-box {
-    width: 426px;
-    height: 235px;
+    width: 400px;
+    height: 165px;
     background: #d9d9d9;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 14px;
 }
 
 .flow-item {
-    min-width: 83px;
+    min-width: 76px;
     text-align: center;
-    font-size: 44px;
-    padding: 8px;
+    font-size: 36px;
+    padding: 7px;
     border-radius: 50%;
 }
 
 .flow-item span {
-    font-size: 20px;
+    font-size: 17px;
     color: #000000;
 }
 
@@ -309,7 +332,7 @@ textarea {
 }
 
 .arrow {
-    font-size: 36px;
+    font-size: 31px;
     color: #606060;
 }
 
@@ -318,13 +341,16 @@ textarea {
 }
 
 .info {
-    height: 61px;
+    height: 46px;
     border-radius: 8px;
-    margin-bottom: 27px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
-    padding-left: 18px;
-    font-size: 22px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 20px;
+    line-height: 1.25;
+    word-break: keep-all;
 }
 
 .info1 {
@@ -340,5 +366,26 @@ textarea {
 }
 
 .restart-button {
-    margin-top: 20px;
+    margin-top: 0px;
+    padding: 4px 30px;
+    font-size: 15px;
+}
+
+/* 첫 번째 안내 문구 숨기기 */
+.info1 {
+    display: none;
+}
+
+/* 아래 두 개 안내 박스 위치 조정 */
+.info2,
+.info3 {
+    height: 52px;
+    margin-bottom: 14px;
+}
+
+/* 두 개 박스를 세로 가운데쯤으로 올려 배치 */
+.info-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
