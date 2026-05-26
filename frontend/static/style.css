@@ -65,8 +65,8 @@ body {
 ========================= */
 
 .input-main-box {
-    width: 960px;
-    height: 330px;
+    width: 1000px;
+    height: 365px;
     background: #dff3ff;
     border-radius: 30px;
     margin: 30px auto 0;
@@ -191,7 +191,7 @@ textarea {
 /* 변환 버튼 */
 .convert-button {
     display: block;
-    margin: 10px auto 0;
+    margin: 18px auto 0;
     padding: 8px 28px;
     border: 2px solid #1d5275;
     border-radius: 10px;
@@ -210,8 +210,8 @@ textarea {
 ========================= */
 
 .loading-main-box {
-    width: 960px;
-    height: 330px;
+    width: 1000px;
+    height: 365px;
     background: #dff3ff;
     border-radius: 30px;
     margin: 30px auto 0;
@@ -257,7 +257,7 @@ textarea {
 
 .final-text-box {
     width: 645px;
-    height: 320px;
+    height: 365px;
     background: #bdd8ff;
     border-radius: 30px;
     padding: 28px 34px;
@@ -269,7 +269,7 @@ textarea {
 
 .department-box {
     width: 377px;
-    height: 320px;
+    height: 365px;
     background: #dff3ff;
     border-radius: 30px;
     text-align: center;
@@ -298,14 +298,14 @@ textarea {
 .bottom-section {
     width: 1260px;
     height: 165px;
-    margin: 24px auto 0;
+    margin: 12px auto 0;
     display: flex;
     gap: 46px;
 }
 
 .flow-box {
     width: 400px;
-    height: 165px;
+    height: 145px;
     background: #d9d9d9;
     border-radius: 8px;
     display: flex;
@@ -366,7 +366,7 @@ textarea {
 }
 
 .restart-button {
-    margin-top: 0px;
+    margin-top: -30px;
     padding: 4px 30px;
     font-size: 15px;
 }
