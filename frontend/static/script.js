@@ -189,7 +189,21 @@ startButton.addEventListener("click", async () => {
             body: formData
         });
 
-        const result = await response.json();
+        const responseText = await response.text();
+        let result;
+
+        try {
+            result = JSON.parse(responseText);
+        } catch (parseError) {
+            result = {
+                message: `서버가 JSON 형식이 아닌 응답을 반환했습니다. 상태 코드: ${response.status}`,
+                error: responseText.slice(0, 300)
+            };
+        }
+
+        if (!response.ok) {
+            throw new Error(result.error || result.message || "알 수 없는 오류");
+        }
 
         setTimeout(() => {
             showPage(resultPage);
@@ -214,7 +228,7 @@ startButton.addEventListener("click", async () => {
         }, 1200);
 
     } catch (error) {
-        alert("처리 중 오류가 발생했습니다.");
+        alert(`민원 처리 중 오류가 발생했습니다.\n\n오류 내용: ${error.message}\n\n다시 녹음하거나 민원 내용을 다시 입력해 주세요.`);
         console.error(error);
 
         showPage(inputPage);

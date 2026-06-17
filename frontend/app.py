@@ -112,9 +112,16 @@ def process_complaint():
     else:
         user_input = "입력된 민원 내용이 없습니다."
 
-    from complaint_rewriter import rewrite_complaint
+    try:
+        from complaint_rewriter import rewrite_complaint
+        rewritten = rewrite_complaint(user_input)
+    except Exception as e:
+        print("민원문 재작성 오류:", e)
+        return jsonify({
+            "message": "민원문 재작성 중 오류가 발생했습니다.",
+            "error": str(e),
+        }), 500
 
-    rewritten = rewrite_complaint(user_input)
     keywords = rewritten.get("keywords", ["정보 없음", "정보 없음", "정보 없음"])
     final_text = rewritten.get("text", user_input)
 
