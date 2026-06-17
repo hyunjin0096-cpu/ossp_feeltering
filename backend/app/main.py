@@ -62,8 +62,8 @@ class FinalComplaintRequest(BaseModel):
     keywords: List[str] = []        # 추가로 넘겨줄 키워드 리스트
 
 
-@app.post("/complaints/final-submit")
-def final_submit(request: FinalComplaintRequest):
+@app.post("/complaints/classify")
+def classify_and_recommend(request: ComplaintRequest):
     classification_result = classify_complaint(request.text)
 
     sub_category_key = classification_result.get("complaint_type", "etc")
@@ -71,16 +71,14 @@ def final_submit(request: FinalComplaintRequest):
     department_result = recommend_department(sub_category_key)
 
     return {
-        "matched_keywords": classification_result.get("matched_keywords", request.keywords),
-        
-        "refined_text": classification_result.get("refined_text", request.text),
-        
-        "recommended_department": {
-            "department": department_result["recommended_department"], # 부서명
-            "reason": department_result["department_reason"],         # 추천 사유
-            "contact": department_result["contact"],                   # 전화번호
-            "website": department_result["website"],                   # 홈페이지
-            "required_documents": department_result["required_documents"], # 필요 서류
-            "extra_info": department_result["extra_info"]              # 참고 사항
-        }
+        "complaint_type": sub_category_key,  # 8대 세부분류명 전달 
+        "type_confidence": classification_result.get("type_confidence", 1.0),
+        "matched_keywords": classification_result.get("matched_keywords", []),
+        "recommended_department": department_result["recommended_department"],
+        "department_reason": department_result["department_reason"],
+        "contact": department_result["contact"],
+        "website": department_result["website"],
+        "required_documents": department_result["required_documents"],
+        "extra_info": department_result["extra_info"],
+        "keywords": request.keywords  
     }
