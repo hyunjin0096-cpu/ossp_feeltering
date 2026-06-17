@@ -86,7 +86,7 @@ class ComplaintRequest(BaseModel):
     keywords: List[str] = []
 
 
-# [화면 3 -> 화면 5] 호출 : 제미나이 텍스트 정제 및 기존 규칙 기반 코드 데이터 연결
+# [화면 3 -> 화면 5] 호출 : 제미나이 분류 결과값 ➔ 규칙 기반 함수(recommend_department)로 바로 토스!
 @app.post("/complaints/classify")
 def classify_and_recommend(request: ComplaintRequest):
     detail_label = detail_classifier.classify(
@@ -95,6 +95,7 @@ def classify_and_recommend(request: ComplaintRequest):
     )
     department_result = recommend_department(detail_label)
 
+    # 4. 기존 프론트엔드 리턴 구조 100% 동일하게 유지하여 반환
     return {
         "complaint_type": detail_label,
         "type_confidence": 1.0,
