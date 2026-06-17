@@ -1,0 +1,497 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #ffffff;
+    color: #000000;
+    font-family: "Malgun Gothic", "Nanum Gothic", sans-serif;
+    overflow-x: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+/* 상단 */
+.header {
+    width: 100%;
+    height: 130px;
+    background: #d5e8ff;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+}
+
+.logo {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    letter-spacing: 4px;
+    color: #2e536b;
+    text-shadow: 3px 3px 0 #9fc9e8;
+    margin-right: 34px;
+    white-space: nowrap;
+}
+
+.header-line {
+    flex: 1;
+    height: 2px;
+    background: #555555;
+    margin-right: 24px;
+}
+
+.subtitle {
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+/* 공통 페이지 */
+.page {
+    width: 100%;
+    max-width: 1440px;
+    min-height: calc(100vh - 130px);
+    margin: 0 auto;
+    position: relative;
+}
+
+/* 메인 박스 공통 */
+.input-main-box,
+.loading-main-box,
+.image-main-box,
+.confirm-main-box {
+    width: 860px;
+    height: 310px;
+    background: #dff3ff;
+    border-radius: 28px;
+    margin: 28px auto 0;
+    position: relative;
+}
+
+/* 안내 문구 공통 */
+.input-guide,
+.image-guide,
+.confirm-guide {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    margin: 0;
+}
+
+/* =========================
+   1페이지 이미지 업로드 화면
+========================= */
+
+.image-upload-area {
+    position: absolute;
+    left: 50%;
+    top: 95px;
+    transform: translateX(-50%);
+    width: 430px;
+    height: 145px;
+    border: 3px dashed #6d91bd;
+    border-radius: 20px;
+    background: #eef7ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.image-upload-area:hover {
+    background: #e3f1ff;
+}
+
+.image-upload-icon {
+    font-size: 46px;
+    margin-bottom: 6px;
+}
+
+.image-upload-main-text {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.image-upload-sub-text {
+    font-size: 16px;
+    color: #444444;
+}
+
+.image-preview-wrap {
+    position: absolute;
+    right: 35px;
+    bottom: 28px;
+    width: 110px;
+    height: 78px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #6d91bd;
+    background: #ffffff;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-classify-note {
+    position: absolute;
+    left: 0;
+    bottom: 28px;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+}
+
+/* =========================
+   2페이지 분류 확인 화면
+========================= */
+
+.category-result-card {
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+    width: 352px;
+    height: 130px;
+    background: #bdd8ff;
+    border-radius: 24px;
+    text-align: center;
+    padding-top: 22px;
+}
+
+.category-label {
+    margin: 0 0 8px;
+    font-size: 19px;
+}
+
+.predicted-category {
+    font-size: 34px;
+    font-weight: bold;
+    color: #1d5275;
+}
+
+.confirm-question {
+    position: absolute;
+    top: 214px;
+    width: 100%;
+    text-align: center;
+    font-size: 23px;
+    margin: 0;
+}
+
+.confirm-button-wrap {
+    position: absolute;
+    top: 256px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+}
+
+.confirm-button {
+    padding: 8px 24px;
+    border: 2px solid #1d5275;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.yes-button {
+    background: #79b8e8;
+}
+
+.no-button {
+    background: #eef3ff;
+}
+
+.confirm-button:hover {
+    filter: brightness(0.96);
+}
+
+/* =========================
+   3페이지 입력 화면
+========================= */
+
+.record-button {
+    position: absolute;
+    left: 360px;
+    top: 90px;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    border: 3px solid #1d5275;
+    background: #79b8e8;
+    font-size: 56px;
+    cursor: pointer;
+}
+
+.record-button:hover {
+    background: #68addf;
+}
+
+.record-button.recording {
+    background: #ffb6b6;
+}
+
+.upload-star {
+    position: absolute;
+    left: 560px;
+    top: 95px;
+    font-size: 58px;
+    color: #6d91bd;
+    cursor: pointer;
+    transform: rotate(8deg);
+    text-shadow:
+        -2px -2px 0 #9bc9f0,
+        2px -2px 0 #9bc9f0,
+        -2px 2px 0 #9bc9f0,
+        2px 2px 0 #9bc9f0,
+        0px 0px 6px #9bc9f0;
+}
+
+.upload-star:hover {
+    color: #4f78a8;
+}
+
+.upload-arrow {
+    position: absolute;
+    left: 600px;
+    top: 138px;
+    width: 95px;
+    height: 2px;
+    background-color: #666666;
+    transform: rotate(-28deg);
+    transform-origin: left center;
+}
+
+.upload-arrow::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: -4px;
+    width: 9px;
+    height: 9px;
+    background-color: #666666;
+    border-radius: 50%;
+}
+
+.upload-text {
+    position: absolute;
+    left: 705px;
+    top: 78px;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.upload-text span {
+    font-size: 16px;
+}
+
+.hidden-file {
+    display: none;
+}
+
+.text-area-wrap {
+    position: absolute;
+    left: 120px;
+    top: 215px;
+    width: 620px;
+}
+
+.text-area-wrap p {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+
+textarea {
+    width: 620px;
+    height: 48px;
+    resize: none;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    background: #eef3ff;
+    font-size: 16px;
+    padding: 10px;
+}
+
+/* 버튼 */
+.convert-button {
+    display: block;
+    margin: 10px auto 0;
+    padding: 8px 24px;
+    border: 2px solid #1d5275;
+    border-radius: 10px;
+    background: #79b8e8;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.convert-button:hover {
+    background: #68addf;
+}
+
+/* =========================
+   변환 중 화면
+========================= */
+
+.loading-main-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 58px;
+}
+
+.loading-icons {
+    font-size: 28px;
+    letter-spacing: 8px;
+}
+
+.loading-circle {
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    border: 3px solid #1d5275;
+    background: #79b8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+/* =========================
+   출력 화면
+========================= */
+
+.complete-title {
+    text-align: center;
+    font-size: 30px;
+    margin: 10px 0 12px;
+}
+
+.result-main-section {
+    width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    gap: 44px;
+}
+
+.final-text-box {
+    width: 620px;
+    height: 330px;
+    background: #bdd8ff;
+    border-radius: 30px;
+    padding: 28px 32px;
+    font-size: 19px;
+    line-height: 1.65;
+    white-space: pre-line;
+    overflow-y: auto;
+}
+
+.department-box {
+    width: 360px;
+    height: 330px;
+    background: #dff3ff;
+    border-radius: 30px;
+    text-align: center;
+    padding-top: 26px;
+}
+
+.department-title {
+    display: inline-block;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    background: #c6d2e2;
+    font-size: 30px;
+    padding: 5px 30px;
+}
+
+.department-result {
+    margin-top: 58px;
+    font-size: 26px;
+    line-height: 1.5;
+}
+
+.restart-button {
+    margin-top: 20px;
+}
+
+/* =========================
+   하단 설명 영역
+========================= */
+
+.bottom-section {
+    width: 1120px;
+    height: 170px;
+    margin: 28px auto 0;
+    display: flex;
+    gap: 42px;
+}
+
+.flow-box {
+    width: 360px;
+    height: 170px;
+    background: #d9d9d9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.flow-item {
+    min-width: 68px;
+    text-align: center;
+    font-size: 34px;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.flow-item span {
+    font-size: 16px;
+    color: #000000;
+}
+
+.flow-item.active {
+    background: #fff0a3;
+}
+
+.arrow {
+    font-size: 28px;
+    color: #606060;
+}
+
+.info-list {
+    flex: 1;
+}
+
+.info {
+    height: 46px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    font-size: 18px;
+}
+
+.info1 {
+    background: #c6ddfb;
+}
+
+.info2 {
+    background: #88c2ec;
+}
+
+.info3 {
+    background: #4898de;
+}

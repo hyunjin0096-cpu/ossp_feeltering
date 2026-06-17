@@ -1,4 +1,5 @@
 .env
 complaint_rewriter_ai/.env
+*.wav
 __pycache__/
 *.pyc
