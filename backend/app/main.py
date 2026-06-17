@@ -80,6 +80,57 @@ async def analyze_image(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+if os.path.exists(MODEL_PATH):
+    efficientnet_model = models.efficientnet_b0(weights=None)
+    num_ftrs = efficientnet_model.classifier[1].in_features
+    efficientnet_model.classifier[1] = nn.Linear(num_ftrs, 3) 
+    
+    efficientnet_model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+    efficientnet_model.to(device)
+    efficientnet_model.eval()
+else:
+    efficientnet_model = None
+
+# EfficientNet 표준 이미지 전처리 파이프라인
+img_transforms = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
+
+
+# [화면 1 -> 화면 2] 호출 : EfficientNet-B0 이미지 분석 후 한글 4대 대분류 반환
+@app.post("/complaints/analyze-image")
+async def analyze_image(file: UploadFile = File(...)):
+    if not efficientnet_model:
+        return {"complaint_type": "교통"}
+
+    try:
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        
+        input_tensor = img_transforms(image).unsqueeze(0).to(device)
+
+        with torch.no_grad():
+            outputs = efficientnet_model(input_tensor)
+            _, preds = torch.max(outputs, 1)
+            class_id = preds.item()
+
+        # 라벨링 매핑 -> {'environment': 0, 'safety': 1, 'traffic': 2}
+        class_to_main_category = {
+            0: "환경",
+            1: "안전",
+            2: "교통"
+        }
+        
+        main_category = class_to_main_category.get(class_id, "기타")
+        return {"complaint_type": main_category}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# --- Request 데이터 모델 ---
 class ComplaintRequest(BaseModel):
     text: str
     confirmed_type: str
