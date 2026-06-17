@@ -103,18 +103,62 @@ reuploadImageButton.addEventListener("click", () => {
 });
 
 
-// 원형 버튼: 현재는 녹음 시작/종료 UI만 구현
-recordButton.addEventListener("click", () => {
-    isRecording = !isRecording;
+// 원형 버튼
+recordButton.addEventListener("click", async () => {
+    if (!isRecording) {
+        try {
+            const response = await fetch("/start-recording", {
+                method: "POST"
+            });
 
-    if (isRecording) {
-        recordButton.classList.add("recording");
-        recordButton.textContent = "⏹️";
-        alert("녹음을 시작합니다 (연동필요🤞)");
+            const result = await response.json();
+
+            if (!result.success) {
+                alert(result.message || "녹음을 시작할 수 없습니다.");
+                return;
+            }
+
+            isRecording = true;
+            recordButton.classList.add("recording");
+            recordButton.textContent = "⏹️";
+
+            alert("녹음을 시작했습니다. 다시 버튼을 누르면 종료됩니다.");
+
+        } catch (error) {
+            alert("녹음 시작 중 오류가 발생했습니다.");
+            console.error(error);
+        }
+
     } else {
-        recordButton.classList.remove("recording");
-        recordButton.textContent = "🎙️";
-        alert("녹음 종료하고 저장합니다 🐿️");
+        try {
+            recordButton.disabled = true;
+            recordButton.textContent = "⏳";
+
+            const response = await fetch("/stop-recording", {
+                method: "POST"
+            });
+
+            const result = await response.json();
+
+            if (!result.success) {
+                alert(result.message || "녹음 처리에 실패했습니다.");
+                return;
+            }
+
+            complaintText.value = result.raw_text;
+
+            alert("음성 인식이 완료되었습니다. 변환하기 버튼을 눌러 주세요.");
+
+        } catch (error) {
+            alert("녹음 종료 또는 음성 처리 중 오류가 발생했습니다.");
+            console.error(error);
+
+        } finally {
+            isRecording = false;
+            recordButton.disabled = false;
+            recordButton.classList.remove("recording");
+            recordButton.textContent = "🎙️";
+        }
     }
 });
 

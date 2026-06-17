@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 
+from VAD_json import start_recording, stop_recording_and_process
+
 app = Flask(__name__)
 
 
@@ -18,17 +20,43 @@ def classify_image():
         })
 
     # TODO: 이미지 분류 모델 연결
-    # image_file을 전처리한 뒤 교통 / 환경 / 안전 / 기타 중 하나를 예측하도록 연결
-    #
-    # 예:
-    # predicted_category = image_classifier.predict(image_file)
-    #
-    # 현재는 모델 연결 전이므로 임시값을 반환함
     predicted_category = "교통"
 
     return jsonify({
         "category": predicted_category
     })
+
+
+@app.route("/start-recording", methods=["POST"])
+def start_recording_route():
+    try:
+        result = start_recording()
+        return jsonify(result)
+
+    except Exception as e:
+        print("녹음 시작 오류:", e)
+
+        return jsonify({
+            "success": False,
+            "message": "녹음 시작 중 서버 오류가 발생했습니다.",
+            "error": str(e)
+        }), 500
+
+
+@app.route("/stop-recording", methods=["POST"])
+def stop_recording_route():
+    try:
+        result = stop_recording_and_process()
+        return jsonify(result)
+
+    except Exception as e:
+        print("녹음 처리 오류:", e)
+
+        return jsonify({
+            "success": False,
+            "message": "녹음 처리 중 서버 오류가 발생했습니다.",
+            "error": str(e)
+        }), 500
 
 
 @app.route("/process", methods=["POST"])
@@ -37,12 +65,9 @@ def process_complaint():
     image_category = request.form.get("image_category", "")
     audio_file = request.files.get("audio")
 
-    # 나중에 팀원 코드 연결할 부분
     # image_category -> 이미지 모델이 예측한 대분류
-    # audio_file -> 음성 전처리 / STT
-    # text -> Gemini API 또는 민원문 재작성 AI
-    # 최종 민원문 생성
-    # 민원분류 및 부서 추천
+    # audio_file -> 파일 업로드 방식 사용할 경우 연결
+    # text -> 직접 입력 또는 VAD STT 결과가 들어온 텍스트
 
     if text.strip():
         user_input = text.strip()
@@ -57,9 +82,10 @@ def process_complaint():
 
     return jsonify({
         "final_text": final_text,
-        "department": department
+        "department": department,
+        "image_category": image_category
     })
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
