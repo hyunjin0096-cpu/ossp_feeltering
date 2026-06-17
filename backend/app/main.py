@@ -86,6 +86,7 @@ class ComplaintRequest(BaseModel):
     keywords: List[str] = []
 
 
+# [화면 3 -> 화면 5] 호출 : 제미나이 텍스트 정제 및 기존 규칙 기반 코드 데이터 연결
 @app.post("/complaints/classify")
 def classify_and_recommend(request: ComplaintRequest):
     detail_label = detail_classifier.classify(
