@@ -2,8 +2,24 @@ from pathlib import Path
 from typing import List
 import io
 
-from ai.models.complaint_classifier import classify_complaint
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from pydantic import BaseModel
+
+try:
+    import torch
+    import torch.nn as nn
+    from PIL import Image
+    from torchvision import models, transforms
+except ModuleNotFoundError:
+    torch = None
+    nn = None
+    Image = None
+    models = None
+    transforms = None
+
+from ai.detail_classifier import DetailClassifier
 from backend.app.services.department_recommender import recommend_department
+
 
 app = FastAPI()
 
@@ -64,63 +80,12 @@ async def analyze_image(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-if os.path.exists(MODEL_PATH):
-    efficientnet_model = models.efficientnet_b0(weights=None)
-    num_ftrs = efficientnet_model.classifier[1].in_features
-    efficientnet_model.classifier[1] = nn.Linear(num_ftrs, 3) 
-    
-    efficientnet_model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
-    efficientnet_model.to(device)
-    efficientnet_model.eval()
-else:
-    efficientnet_model = None
-
-# EfficientNet 표준 이미지 전처리 파이프라인
-img_transforms = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor()
-])
-
-
-# [화면 1 -> 화면 2] 호출 : EfficientNet-B0 이미지 분석 후 한글 4대 대분류 반환
-@app.post("/complaints/analyze-image")
-async def analyze_image(file: UploadFile = File(...)):
-    if not efficientnet_model:
-        return {"complaint_type": "교통"}
-
-    try:
-        image_bytes = await file.read()
-        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        
-        input_tensor = img_transforms(image).unsqueeze(0).to(device)
-
-        with torch.no_grad():
-            outputs = efficientnet_model(input_tensor)
-            _, preds = torch.max(outputs, 1)
-            class_id = preds.item()
-
-        # 라벨링 매핑 -> {'environment': 0, 'safety': 1, 'traffic': 2}
-        class_to_main_category = {
-            0: "환경",
-            1: "안전",
-            2: "교통"
-        }
-        
-        main_category = class_to_main_category.get(class_id, "기타")
-        return {"complaint_type": main_category}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-# --- Request 데이터 모델 ---
 class ComplaintRequest(BaseModel):
     text: str
     confirmed_type: str
     keywords: List[str] = []
 
 
-# [화면 3 -> 화면 5] 호출 : 대분류값과 제미나이 키워드를 규칙 기반 코드의 입력값으로 통합 연동
 @app.post("/complaints/classify")
 def classify_and_recommend(request: ComplaintRequest):
     detail_label = detail_classifier.classify(
@@ -129,7 +94,6 @@ def classify_and_recommend(request: ComplaintRequest):
     )
     department_result = recommend_department(detail_label)
 
-    # 3. 기존 프론트엔드가 쓰던 리턴 Key 구조 100% 동일하게 맞춰서 최종 반환
     return {
         "complaint_type": detail_label,
         "type_confidence": 1.0,
