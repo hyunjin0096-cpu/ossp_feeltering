@@ -8,8 +8,8 @@ import torch.nn as nn
 from PIL import Image
 from torchvision import models, transforms
 
-from app.services.complaint_classifier import classify_complaint
-from app.services.department_recommender import recommend_department
+from ai.models.complaint_classifier import classify_complaint
+from backend.app.services.department_recommender import recommend_department
 
 app = FastAPI()
 
@@ -31,8 +31,7 @@ else:
 # EfficientNet 표준 이미지 전처리 파이프라인
 img_transforms = transforms.Compose([
     transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transforms.ToTensor()
 ])
 
 
