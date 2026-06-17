@@ -1,5 +1,5 @@
 # feeltering project
-# 🎙️ Voice AI & Input/Output (1주차 개발 완료)
+# 🎙️ Voice AI & Input/Output
 
 본 브랜치는 오디오 음성 입력 수신, 무음 구간 감지(VAD)를 통한 잡음 제거, 그리고 Whisper STT 모델을 활용한 텍스트 변환(raw_text 추출) 단계를 담당합니다. 팀 데이터 명세서 규격에 맞추어 다음 단계로 전달할 데이터 패키징(JSON)까지 구현이 완료되었습니다.
 
