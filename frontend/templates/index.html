@@ -13,92 +13,86 @@
         <p class="subtitle">민원을 음성으로 쉽고 간단하게 작성하세요.</p>
     </header>
 
-    <!-- 1. 입력 화면 -->
-<<<<<<< Updated upstream
-    <main id="inputPage" class="page">
-=======
-<!-- 1. 이미지 업로드 화면 -->
-<main id="imageUploadPage" class="page">
-    <section class="image-main-box">
-    <p class="image-guide">민원 현장 이미지를 업로드하세요.</p>
+    <!-- 1. 이미지 업로드 화면 -->
+    <main id="imageUploadPage" class="page">
+        <section class="image-main-box">
+            <p class="image-guide">민원 현장 이미지를 업로드하세요.</p>
 
-    <label for="complaintImage" class="image-upload-area">
-        <div class="image-upload-icon">🖼️</div>
-        <div class="image-upload-main-text">사진을 클릭해 업로드하세요.</div>
-        <div class="image-upload-sub-text">(.jpg, .jpeg, .png)</div>
-    </label>
-    <input id="complaintImage" class="hidden-file" type="file" accept=".jpg,.jpeg,.png">
+            <label for="complaintImage" class="image-upload-area">
+                <div class="image-upload-icon">🖼️</div>
+                <div class="image-upload-main-text">사진을 클릭해 업로드하세요.</div>
+                <div class="image-upload-sub-text">(.jpg, .jpeg, .png)</div>
+            </label>
+            <input id="complaintImage" class="hidden-file" type="file" accept=".jpg,.jpeg,.png">
 
-    <p class="image-classify-note">AI가 먼저 유형을 분류합니다.</p>
+            <p class="image-classify-note">AI가 먼저 유형을 분류합니다.</p>
 
-    <div id="imagePreviewWrap" class="image-preview-wrap hidden">
-        <img id="imagePreview" class="image-preview" alt="업로드 이미지 미리보기">
-    </div>
-</section>
+            <div id="imagePreviewWrap" class="image-preview-wrap hidden">
+                <img id="imagePreview" class="image-preview" alt="업로드 이미지 미리보기">
+            </div>
+        </section>
 
-    <button id="imageAnalyzeButton" class="convert-button">이미지 분석하기</button>
+        <button id="imageAnalyzeButton" class="convert-button">이미지 분석하기</button>
 
-    <section class="bottom-section">
-        <div class="flow-box">
-            <div class="flow-item active">🖼️<br><span>Image</span></div>
-            <div class="arrow">→</div>
-            <div class="flow-item">✅<br><span>Check</span></div>
-            <div class="arrow">→</div>
-            <div class="flow-item">🎙️<br><span>Input</span></div>
-        </div>
+        <section class="bottom-section">
+            <div class="flow-box">
+                <div class="flow-item active">🖼️<br><span>Image</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">✅<br><span>Check</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">🎙️<br><span>Input</span></div>
+            </div>
 
-        <div class="info-list">
-            <div class="info info1">🖼️ AI 이미지 분류: 첨부 이미지를 바탕으로 민원 대분류를 예측합니다.</div>
-            <div class="info info2">✅ 분류 확인: 예측된 민원 유형이 맞는지 사용자가 확인합니다.</div>
-            <div class="info info3">🎙️ 민원 입력: 확인 후 음성, 파일, 텍스트로 상세 민원을 작성합니다.</div>
-        </div>
-    </section>
-</main>
+            <div class="info-list">
+                <div class="info info1">🖼️ AI 이미지 분류: 첨부 이미지를 바탕으로 민원 대분류를 예측합니다.</div>
+                <div class="info info2">✅ 분류 확인: 예측된 민원 유형이 맞는지 사용자가 확인합니다.</div>
+                <div class="info info3">🎙️ 민원 입력: 확인 후 음성, 파일, 텍스트로 상세 민원을 작성합니다.</div>
+            </div>
+        </section>
+    </main>
 
-<!-- 2. 이미지 분류 확인 화면 -->
-<main id="categoryConfirmPage" class="page hidden">
-    <section class="confirm-main-box">
-    <div class="category-result-card">
-        <p class="category-label">예측된 민원 유형</p>
-        <div id="predictedCategory" class="predicted-category">-</div>
-    </div>
+    <!-- 2. 이미지 분류 확인 화면 -->
+    <main id="categoryConfirmPage" class="page hidden">
+        <section class="confirm-main-box">
+            <div class="category-result-card">
+                <p class="category-label">예측된 민원 유형</p>
+                <div id="predictedCategory" class="predicted-category">-</div>
+            </div>
 
-    <p class="confirm-question">이 분류가 맞나요?</p>
+            <p class="confirm-question">이 분류가 맞나요?</p>
 
-    <div class="confirm-button-wrap">
-        <button id="confirmCategoryButton" class="confirm-button yes-button">예</button>
-        <button id="reuploadImageButton" class="confirm-button no-button">아니요, 이미지를 다시 업로드 합니다</button>
-    </div>
-</section>
+            <div class="confirm-button-wrap">
+                <button id="confirmCategoryButton" class="confirm-button yes-button">예</button>
+                <button id="reuploadImageButton" class="confirm-button no-button">아니요, 이미지를 다시 업로드 합니다</button>
+            </div>
+        </section>
 
-    <section class="bottom-section">
-        <div class="flow-box">
-            <div class="flow-item">🖼️<br><span>Image</span></div>
-            <div class="arrow">→</div>
-            <div class="flow-item active">✅<br><span>Check</span></div>
-            <div class="arrow">→</div>
-            <div class="flow-item">🎙️<br><span>Input</span></div>
-        </div>
+        <section class="bottom-section">
+            <div class="flow-box">
+                <div class="flow-item">🖼️<br><span>Image</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item active">✅<br><span>Check</span></div>
+                <div class="arrow">→</div>
+                <div class="flow-item">🎙️<br><span>Input</span></div>
+            </div>
 
-        <div class="info-list">
-            <div class="info info1">🖼️ 이미지 분석 결과를 바탕으로 교통, 환경, 안전, 기타 중 한 분류로 예측합니다.</div>
-            <div class="info info2">✅ 예측이 맞으면 다음 단계로 넘어가고, 틀리면 이미지를 다시 업로드합니다.</div>
-            <div class="info info3">📃 이후 입력된 민원 내용은 최종 민원문으로 재구성됩니다.</div>
-        </div>
-    </section>
-</main>
+            <div class="info-list">
+                <div class="info info1">🖼️ 이미지 분석 결과를 바탕으로 교통, 환경, 안전, 기타 중 하나를 예측합니다.</div>
+                <div class="info info2">✅ 예측이 맞으면 다음 단계로 넘어가고, 틀리면 이미지를 다시 업로드합니다.</div>
+                <div class="info info3">📃 이후 입력된 민원 내용은 최종 민원문으로 재구성됩니다.</div>
+            </div>
+        </section>
+    </main>
 
+    <!-- 3. 입력 화면 -->
     <main id="inputPage" class="page hidden">
->>>>>>> Stashed changes
         <section class="input-main-box">
             <p class="input-guide">버튼을 눌러 녹음을 시작하고 다시 눌러 종료합니다.</p>
 
-            <!-- 원형: 녹음 시작/종료 버튼 -->
             <button id="recordButton" class="record-button" type="button">
                 🎙️
             </button>
 
-            <!-- 별 모양: 파일 업로드 버튼 -->
             <label for="audioFile" class="upload-star">✦</label>
             <div class="upload-arrow"></div>
             <div class="upload-text">
@@ -107,7 +101,6 @@
             </div>
             <input id="audioFile" class="hidden-file" type="file" accept=".wav,.mp3,.m4a">
 
-            <!-- 텍스트 입력창 -->
             <div class="text-area-wrap">
                 <p>또는 민원을 직접 작성 하세요.</p>
                 <textarea id="complaintText"></textarea>
@@ -122,11 +115,7 @@
                 <div class="arrow">→</div>
                 <div class="flow-item">🤖<br><span>Processing</span></div>
                 <div class="arrow">→</div>
-<<<<<<< Updated upstream
-                <div class="flow-item">📄<br><span>Final Text &<br>Department</span></div>
-=======
                 <div class="flow-item">📄<br><span>Final Text<br>& Department</span></div>
->>>>>>> Stashed changes
             </div>
 
             <div class="info-list">
@@ -137,7 +126,7 @@
         </section>
     </main>
 
-    <!-- 2. 변환 중 화면 -->
+    <!-- 4. 변환 중 화면 -->
     <main id="loadingPage" class="page hidden">
         <section class="loading-main-box">
             <div class="loading-icons">🤖 🎙️ 💻 🔢</div>
@@ -162,15 +151,13 @@
         </section>
     </main>
 
-    <!-- 3. 출력 화면 -->
+    <!-- 5. 출력 화면 -->
     <main id="resultPage" class="page hidden">
         <h2 class="complete-title">변환 완료!</h2>
 
         <section class="result-main-section">
-            <!-- 왼쪽 사각형: 최종 민원문 출력칸 -->
             <div id="finalText" class="final-text-box"></div>
 
-            <!-- 오른쪽 사각형: 추천 부서 출력칸 -->
             <div class="department-box">
                 <div class="department-title">추천 부서</div>
                 <div id="departmentResult" class="department-result"></div>

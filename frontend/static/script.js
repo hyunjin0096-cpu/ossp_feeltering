@@ -1,14 +1,9 @@
-<<<<<<< Updated upstream
-=======
 const imageUploadPage = document.getElementById("imageUploadPage");
 const categoryConfirmPage = document.getElementById("categoryConfirmPage");
->>>>>>> Stashed changes
 const inputPage = document.getElementById("inputPage");
 const loadingPage = document.getElementById("loadingPage");
 const resultPage = document.getElementById("resultPage");
 
-<<<<<<< Updated upstream
-=======
 const complaintImage = document.getElementById("complaintImage");
 const imagePreviewWrap = document.getElementById("imagePreviewWrap");
 const imagePreview = document.getElementById("imagePreview");
@@ -17,7 +12,6 @@ const predictedCategory = document.getElementById("predictedCategory");
 const confirmCategoryButton = document.getElementById("confirmCategoryButton");
 const reuploadImageButton = document.getElementById("reuploadImageButton");
 
->>>>>>> Stashed changes
 const recordButton = document.getElementById("recordButton");
 const audioFile = document.getElementById("audioFile");
 const complaintText = document.getElementById("complaintText");
@@ -29,8 +23,6 @@ const finalText = document.getElementById("finalText");
 const departmentResult = document.getElementById("departmentResult");
 
 let isRecording = false;
-<<<<<<< Updated upstream
-=======
 let selectedImageCategory = "";
 
 
@@ -110,7 +102,6 @@ reuploadImageButton.addEventListener("click", () => {
     showPage(imageUploadPage);
 });
 
->>>>>>> Stashed changes
 
 // 원형 버튼: 현재는 녹음 시작/종료 UI만 구현
 recordButton.addEventListener("click", () => {
@@ -127,10 +118,7 @@ recordButton.addEventListener("click", () => {
     }
 });
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 // 변환하기 버튼
 startButton.addEventListener("click", async () => {
     const text = complaintText.value.trim();
@@ -141,19 +129,11 @@ startButton.addEventListener("click", async () => {
         return;
     }
 
-<<<<<<< Updated upstream
-    inputPage.classList.add("hidden");
-    loadingPage.classList.remove("hidden");
-
-    const formData = new FormData();
-    formData.append("text", text);
-=======
     showPage(loadingPage);
 
     const formData = new FormData();
     formData.append("text", text);
     formData.append("image_category", selectedImageCategory);
->>>>>>> Stashed changes
 
     if (file) {
         formData.append("audio", file);
@@ -168,12 +148,7 @@ startButton.addEventListener("click", async () => {
         const result = await response.json();
 
         setTimeout(() => {
-<<<<<<< Updated upstream
-            loadingPage.classList.add("hidden");
-            resultPage.classList.remove("hidden");
-=======
             showPage(resultPage);
->>>>>>> Stashed changes
 
             finalText.textContent = result.final_text;
             departmentResult.textContent = result.department;
@@ -183,28 +158,15 @@ startButton.addEventListener("click", async () => {
         alert("처리 중 오류가 발생했습니다.");
         console.error(error);
 
-<<<<<<< Updated upstream
-        loadingPage.classList.add("hidden");
-        inputPage.classList.remove("hidden");
-    }
-});
-
-=======
         showPage(inputPage);
     }
 });
 
 
->>>>>>> Stashed changes
 // 처음으로 버튼
 restartButton.addEventListener("click", () => {
     complaintText.value = "";
     audioFile.value = "";
-<<<<<<< Updated upstream
-
-    resultPage.classList.add("hidden");
-    inputPage.classList.remove("hidden");
-=======
     complaintImage.value = "";
     imagePreviewWrap.classList.add("hidden");
     imagePreview.removeAttribute("src");
@@ -212,5 +174,4 @@ restartButton.addEventListener("click", () => {
     selectedImageCategory = "";
 
     showPage(imageUploadPage);
->>>>>>> Stashed changes
 });
