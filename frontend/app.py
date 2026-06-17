@@ -1,17 +1,26 @@
+import os
 import sys
 from pathlib import Path
 
-from flask import Flask, render_template, request, jsonify
+import requests
+from flask import Flask, jsonify, render_template, request
 
-from VAD_json import start_recording, stop_recording_and_process
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+FRONTEND_DIR = Path(__file__).resolve().parent
 REWRITER_DIR = PROJECT_ROOT / "complaint_rewriter_ai"
+
+if str(FRONTEND_DIR) not in sys.path:
+    sys.path.append(str(FRONTEND_DIR))
 
 if str(REWRITER_DIR) not in sys.path:
     sys.path.append(str(REWRITER_DIR))
 
+from VAD_json import start_recording, stop_recording_and_process
+
+
 app = Flask(__name__)
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
 
 
 @app.route("/")
@@ -24,15 +33,33 @@ def classify_image():
     image_file = request.files.get("image")
 
     if image_file is None:
-        return jsonify({
-            "category": "기타"
-        })
+        return jsonify({"category": "기타"}), 400
 
-    # TODO: 이미지 분류 모델 연결
-    predicted_category = "교통"
+    try:
+        files = {
+            "file": (
+                image_file.filename,
+                image_file.stream,
+                image_file.mimetype,
+            )
+        }
+        response = requests.post(
+            f"{BACKEND_URL}/complaints/analyze-image",
+            files=files,
+            timeout=30,
+        )
+        response.raise_for_status()
+        result = response.json()
+
+    except requests.RequestException as e:
+        print("이미지 분류 API 오류:", e)
+        return jsonify({
+            "category": "기타",
+            "error": str(e),
+        }), 502
 
     return jsonify({
-        "category": predicted_category
+        "category": result.get("complaint_type", "기타")
     })
 
 
@@ -44,11 +71,10 @@ def start_recording_route():
 
     except Exception as e:
         print("녹음 시작 오류:", e)
-
         return jsonify({
             "success": False,
             "message": "녹음 시작 중 서버 오류가 발생했습니다.",
-            "error": str(e)
+            "error": str(e),
         }), 500
 
 
@@ -60,11 +86,10 @@ def stop_recording_route():
 
     except Exception as e:
         print("녹음 처리 오류:", e)
-
         return jsonify({
             "success": False,
             "message": "녹음 처리 중 서버 오류가 발생했습니다.",
-            "error": str(e)
+            "error": str(e),
         }), 500
 
 
@@ -73,10 +98,6 @@ def process_complaint():
     text = request.form.get("text", "")
     image_category = request.form.get("image_category", "")
     audio_file = request.files.get("audio")
-
-    # image_category -> 이미지 모델이 예측한 대분류
-    # audio_file -> 파일 업로드 방식 사용할 경우 연결
-    # text -> 직접 입력 또는 VAD STT 결과가 들어온 텍스트
 
     if text.strip():
         user_input = text.strip()
@@ -95,7 +116,23 @@ def process_complaint():
     location = keywords[1] if len(keywords) > 1 else "정보 없음"
     request_text = keywords[2] if len(keywords) > 2 else "정보 없음"
 
-    department = "⭐추천하는 부서 출력📃"
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/complaints/classify",
+            json={
+                "text": final_text,
+                "confirmed_type": image_category or "기타",
+                "keywords": keywords,
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        department_data = response.json()
+        department = department_data.get("recommended_department", "민원접수과")
+
+    except requests.RequestException as e:
+        print("부서 추천 API 오류:", e)
+        department = "민원접수과"
 
     return jsonify({
         "problem": problem,
@@ -103,7 +140,7 @@ def process_complaint():
         "request": request_text,
         "final_text": final_text,
         "department": department,
-        "image_category": image_category
+        "image_category": image_category,
     })
 
 

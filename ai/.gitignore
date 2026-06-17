@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# AI model files
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.pkl
+*.joblib
+
+# HuggingFace / training outputs
+model/
+models/
+checkpoint/
+checkpoints/
+outputs/
+runs/
+.cache/
+
+# Logs
+*.log
