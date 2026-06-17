@@ -38,16 +38,20 @@ detail_classifier = DetailClassifier()
 
 if torch and nn and models and transforms:
     model_path = next((path for path in MODEL_PATHS if path.exists()), None)
+    
+    # EfficientNet 표준 ImageNet 정규화(Normalize) 추가
     img_transforms = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
     if model_path:
         efficientnet_model = models.efficientnet_b0(weights=None)
         num_ftrs = efficientnet_model.classifier[1].in_features
         efficientnet_model.classifier[1] = nn.Linear(num_ftrs, 3)
-        efficientnet_model.load_state_dict(torch.load(model_path, map_location=device))
+        
+        efficientnet_model.load_state_dict(torch.load(model_path, map_location=device), strict=False)
         efficientnet_model.to(device)
         efficientnet_model.eval()
 
