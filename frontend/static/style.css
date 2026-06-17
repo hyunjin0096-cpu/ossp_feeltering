@@ -403,7 +403,7 @@ textarea {
     background: #dff3ff;
     border-radius: 30px;
     text-align: center;
-    padding-top: 26px;
+    padding: 26px 22px 22px;
 }
 
 .department-title {
@@ -416,9 +416,16 @@ textarea {
 }
 
 .department-result {
-    margin-top: 58px;
-    font-size: 26px;
-    line-height: 1.5;
+    height: 218px;
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: #eef7ff;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    text-align: left;
+    white-space: pre-line;
+    overflow-y: auto;
 }
 
 .restart-button {

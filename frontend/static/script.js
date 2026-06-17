@@ -199,7 +199,18 @@ startButton.addEventListener("click", async () => {
                 `📍 위치\n${result.location || "정보 없음"}\n\n` +
                 `📝 요구사항\n${result.request || "정보 없음"}\n\n` +
                 `최종 민원문\n${result.final_text || ""}`;
-            departmentResult.textContent = result.department;
+
+            const requiredDocuments = Array.isArray(result.required_documents)
+                ? result.required_documents
+                : [];
+
+            departmentResult.textContent =
+                `${result.department || "민원접수과"}\n\n` +
+                `추천 이유: ${result.department_reason || "정보 없음"}\n` +
+                `연락처: ${result.department_contact || "정보 없음"}\n` +
+                `접수 사이트: ${result.department_website || "정보 없음"}\n` +
+                `필요한 문서:\n${requiredDocuments.length ? requiredDocuments.map((item) => `- ${item}`).join("\n") : "정보 없음"}\n` +
+                `추가 안내: ${result.department_extra_info || "정보 없음"}`;
         }, 1200);
 
     } catch (error) {

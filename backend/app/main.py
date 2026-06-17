@@ -39,11 +39,9 @@ detail_classifier = DetailClassifier()
 if torch and nn and models and transforms:
     model_path = next((path for path in MODEL_PATHS if path.exists()), None)
     
-    # EfficientNet 표준 ImageNet 정규화(Normalize) 추가
     img_transforms = transforms.Compose([
         transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        transforms.ToTensor()
     ])
 
     if model_path:

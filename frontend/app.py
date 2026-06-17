@@ -58,9 +58,15 @@ def classify_image():
             "error": str(e),
         }), 502
 
-    return jsonify({
-        "category": result.get("complaint_type", "기타")
-    })
+    category = result.get("complaint_type")
+    if not category:
+        return jsonify({
+            "category": "기타",
+            "error": "이미지 분류 API 응답에 complaint_type이 없습니다.",
+            "backend_response": result,
+        }), 502
+
+    return jsonify({"category": category})
 
 
 @app.route("/start-recording", methods=["POST"])
@@ -129,10 +135,20 @@ def process_complaint():
         response.raise_for_status()
         department_data = response.json()
         department = department_data.get("recommended_department", "민원접수과")
+        department_reason = department_data.get("department_reason", "")
+        department_contact = department_data.get("contact", "")
+        department_website = department_data.get("website", "")
+        required_documents = department_data.get("required_documents", [])
+        department_extra_info = department_data.get("extra_info", "")
 
     except requests.RequestException as e:
         print("부서 추천 API 오류:", e)
         department = "민원접수과"
+        department_reason = "부서 추천 API 연결에 실패하여 기본 접수 부서로 안내합니다."
+        department_contact = "02-2199-6114"
+        department_website = "https://www.epeople.go.kr"
+        required_documents = []
+        department_extra_info = ""
 
     return jsonify({
         "problem": problem,
@@ -140,6 +156,11 @@ def process_complaint():
         "request": request_text,
         "final_text": final_text,
         "department": department,
+        "department_reason": department_reason,
+        "department_contact": department_contact,
+        "department_website": department_website,
+        "required_documents": required_documents,
+        "department_extra_info": department_extra_info,
         "image_category": image_category,
     })
 
