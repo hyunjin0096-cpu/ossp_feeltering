@@ -194,7 +194,11 @@ startButton.addEventListener("click", async () => {
         setTimeout(() => {
             showPage(resultPage);
 
-            finalText.textContent = result.final_text;
+            finalText.textContent =
+                `📌 문제상황\n${result.problem || "정보 없음"}\n\n` +
+                `📍 위치\n${result.location || "정보 없음"}\n\n` +
+                `📝 요구사항\n${result.request || "정보 없음"}\n\n` +
+                `최종 민원문\n${result.final_text || ""}`;
             departmentResult.textContent = result.department;
         }, 1200);
 

@@ -1,6 +1,15 @@
+import sys
+from pathlib import Path
+
 from flask import Flask, render_template, request, jsonify
 
 from VAD_json import start_recording, stop_recording_and_process
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REWRITER_DIR = PROJECT_ROOT / "complaint_rewriter_ai"
+
+if str(REWRITER_DIR) not in sys.path:
+    sys.path.append(str(REWRITER_DIR))
 
 app = Flask(__name__)
 
@@ -76,11 +85,22 @@ def process_complaint():
     else:
         user_input = "입력된 민원 내용이 없습니다."
 
-    final_text = f"""{user_input}"""
+    from complaint_rewriter import rewrite_complaint
+
+    rewritten = rewrite_complaint(user_input)
+    keywords = rewritten.get("keywords", ["정보 없음", "정보 없음", "정보 없음"])
+    final_text = rewritten.get("text", user_input)
+
+    problem = keywords[0] if len(keywords) > 0 else "정보 없음"
+    location = keywords[1] if len(keywords) > 1 else "정보 없음"
+    request_text = keywords[2] if len(keywords) > 2 else "정보 없음"
 
     department = "⭐추천하는 부서 출력📃"
 
     return jsonify({
+        "problem": problem,
+        "location": location,
+        "request": request_text,
         "final_text": final_text,
         "department": department,
         "image_category": image_category

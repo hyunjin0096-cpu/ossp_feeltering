@@ -203,10 +203,11 @@ recorded_frames = []
 recording_stream = None
 recording_p = None
 is_recording = False
+has_detected_speech = False
 
 
 def frontend_record_loop():
-    global recorded_frames, recording_stream
+    global recorded_frames, recording_stream, has_detected_speech
 
     has_spoken = False
 
@@ -224,6 +225,7 @@ def frontend_record_loop():
             if energy > VAD_THRESHOLD and not has_spoken:
                 print("🗣️ 사용자의 발화가 감지되었습니다.")
                 has_spoken = True
+                has_detected_speech = True
 
         except Exception as e:
             print("녹음 중 오류:", e)
@@ -239,6 +241,7 @@ def start_recording():
     """
     global recording_thread, stop_event, recorded_frames
     global recording_stream, recording_p, is_recording
+    global has_detected_speech
 
     if is_recording:
         return {
@@ -249,6 +252,7 @@ def start_recording():
     import pyaudio
 
     recorded_frames = []
+    has_detected_speech = False
     stop_event.clear()
 
     recording_p = pyaudio.PyAudio()
@@ -286,6 +290,7 @@ def stop_recording_and_process():
     """
     global recording_thread, stop_event, recorded_frames
     global recording_stream, recording_p, is_recording
+    global has_detected_speech
 
     if not is_recording:
         return {
@@ -311,10 +316,10 @@ def stop_recording_and_process():
 
     is_recording = False
 
-    if not recorded_frames:
+    if not recorded_frames or not has_detected_speech:
         return {
             "success": False,
-            "message": "녹음된 음성이 없습니다."
+            "message": "발화가 감지되지 않았습니다. 다시 시도해 주세요."
         }
 
     wf = wave.open(RAW_OUTPUT, "wb")
