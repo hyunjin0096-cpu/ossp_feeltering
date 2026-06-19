@@ -16,7 +16,7 @@ if str(FRONTEND_DIR) not in sys.path:
 if str(REWRITER_DIR) not in sys.path:
     sys.path.append(str(REWRITER_DIR))
 
-from VAD_json import start_recording, stop_recording_and_process
+from VAD_json import process_uploaded_audio, start_recording, stop_recording_and_process
 
 
 app = Flask(__name__)
@@ -108,7 +108,15 @@ def process_complaint():
     if text.strip():
         user_input = text.strip()
     elif audio_file:
-        user_input = "업로드된 음성 파일을 바탕으로 민원 내용을 분석했습니다.\n"
+        try:
+            stt_result = process_uploaded_audio(audio_file)
+            user_input = stt_result["raw_text"]
+        except Exception as e:
+            print("업로드 음성 처리 오류:", e)
+            return jsonify({
+                "message": "업로드된 음성 파일 처리 중 오류가 발생했습니다.",
+                "error": str(e),
+            }), 500
     else:
         user_input = "입력된 민원 내용이 없습니다."
 

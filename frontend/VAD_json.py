@@ -3,12 +3,17 @@ import sys
 import wave
 import threading
 import json
+import tempfile
+from subprocess import CalledProcessError, run
 
 # ffmpeg 경로 강제 지정
+FFMPEG_EXE = "ffmpeg"
+
 try:
     import imageio_ffmpeg
 
-    clean_ffmpeg_path = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
+    FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+    clean_ffmpeg_path = os.path.dirname(FFMPEG_EXE)
 
     if clean_ffmpeg_path not in os.environ.get("PATH", ""):
         os.environ["PATH"] = clean_ffmpeg_path + os.pathsep + os.environ.get("PATH", "")
@@ -191,6 +196,71 @@ def run_whisper_test():
     print("==============================================")
 
     return fe_sharing_data
+
+
+def load_audio_with_ffmpeg(file_path, sr=RATE):
+    cmd = [
+        FFMPEG_EXE,
+        "-nostdin",
+        "-threads", "0",
+        "-i", file_path,
+        "-f", "s16le",
+        "-ac", "1",
+        "-acodec", "pcm_s16le",
+        "-ar", str(sr),
+        "-",
+    ]
+
+    try:
+        output = run(cmd, capture_output=True, check=True).stdout
+    except FileNotFoundError as e:
+        raise RuntimeError("ffmpeg 실행 파일을 찾을 수 없습니다.") from e
+    except CalledProcessError as e:
+        raise RuntimeError(f"오디오 파일을 읽지 못했습니다: {e.stderr.decode(errors='ignore')}") from e
+
+    return np.frombuffer(output, np.int16).flatten().astype(np.float32) / 32768.0
+
+
+def process_uploaded_audio(file_storage):
+    """
+    Flask에서 받은 업로드 음성 파일을 기존 전처리/STT 파이프라인에 연결한다.
+    mp3, m4a, wav 등을 16kHz mono wav로 변환해 RAW_OUTPUT에 저장한 뒤 처리한다.
+    """
+    original_filename = file_storage.filename or "uploaded_audio"
+    _, extension = os.path.splitext(original_filename)
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=extension) as temp_file:
+        temp_path = temp_file.name
+        file_storage.save(temp_path)
+
+    try:
+        audio_array = load_audio_with_ffmpeg(temp_path, sr=RATE)
+        audio_int16 = np.clip(audio_array * 32768.0, -32768, 32767).astype(np.int16)
+
+        with wave.open(RAW_OUTPUT, "wb") as wf:
+            wf.setnchannels(CHANNELS)
+            wf.setsampwidth(2)
+            wf.setframerate(RATE)
+            wf.writeframes(audio_int16.tobytes())
+
+        print(f"💾 업로드 음성 파일을 원본 처리 파일로 변환 완료: {RAW_OUTPUT}")
+
+        preprocess_audio()
+        stt_result = run_whisper_test()
+
+        return {
+            "success": True,
+            "message": "업로드 음성 파일 처리가 완료되었습니다.",
+            "audio_file": stt_result["audio_file"],
+            "sampling_rate": stt_result["sampling_rate"],
+            "raw_text": stt_result["raw_text"],
+        }
+
+    finally:
+        try:
+            os.remove(temp_path)
+        except OSError:
+            pass
 
 
 # =========================
